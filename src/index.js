@@ -20,6 +20,18 @@ const body = {
 }
 
 let speed = 1 // users/second
+const totalAmount = 215000000
+let amount = 215000000
+
+function fetchTotalAmount() {
+    got
+      .get('https://www.buonomobilita.it/amount-retriever/api/amount')
+      .json()
+      .then((payload) => {
+        amount = payload
+      })
+      .catch((err) => console.log(err))
+}
 
 function retrieveData() {
   got
@@ -59,8 +71,17 @@ server.post('/expected', (req, res) => {
   res.json({ expectedTime })
 })
 
+server.get('/amount', (req, res) => {
+  const percentage = Math.round((amount / totalAmount) * 100)
+  res.json({ amount, percentage })
+})
+
+
 setInterval(retrieveData, TIMEOUT)
 retrieveData()
+
+setInterval(fetchTotalAmount, TIMEOUT)
+fetchTotalAmount()
 
 server.listen(PORT, () => {
   console.log(`Wella! bonusmobilita.itaila.it is listening to localhost:${PORT}`)

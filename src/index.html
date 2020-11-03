@@ -25,7 +25,7 @@
         height: 100%;
         text-align: center;
       }
-      #title {
+      .title {
         margin-top: 3rem;
         margin-bottom: 3rem;
         font-size: 2rem;
@@ -68,7 +68,11 @@
   </head>
   <body>
     <div id="container">
-      <div id="title">Inserisci la tua posizione:</div>
+      <div class="title">Totale rimasto:<br>
+        <span id="total-amount">215.000.000</span>€<br>
+        (Percentuale rimasta: <span id="perc-total-amount">100</span>%)
+      </div>
+      <div class="title">Inserisci la tua posizione:</div>
       <div id="form-container">
         <form id="form">
           <input type="number" id="queue" />
@@ -86,6 +90,32 @@
         Luca
       </div>
     </div>
+
+    <script type="text/javascript">
+      const totalAmount = document.getElementById('total-amount')
+      const totalPercentage = document.getElementById('perc-total-amount')
+      const fetchTotal = () => {
+        window
+                .fetch('/amount')
+                .then((res) => {
+                  console.log(res)
+                  return res.json()
+                })
+                .then((payload) => {
+                  console.log(payload)
+                  const { amount, percentage } = payload
+                  totalAmount.innerText = amount
+                  totalPercentage.innerText = percentage
+                })
+      }
+      window.onload = (e) => {
+        e.preventDefault()
+        fetchTotal()
+      }
+
+      setInterval(fetchTotal, 60 * 1000)
+    </script>
+
     <script type="text/javascript">
       const form = document.getElementById('form')
       const input = document.getElementById('queue')
