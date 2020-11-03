@@ -80,7 +80,7 @@ server.get('/amount', (req, res) => {
 setInterval(retrieveData, TIMEOUT)
 retrieveData()
 
-setInterval(fetchTotalAmount, 10000)
+setInterval(fetchTotalAmount, TIMEOUT)
 fetchTotalAmount()
 
 server.listen(PORT, () => {
