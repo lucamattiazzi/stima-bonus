@@ -59,7 +59,7 @@ server.post('/expected', (req, res) => {
   res.json({ expectedTime })
 })
 
-setTimeout(retrieveData, TIMEOUT)
+setInterval(retrieveData, TIMEOUT)
 retrieveData()
 
 server.listen(PORT, () => {
