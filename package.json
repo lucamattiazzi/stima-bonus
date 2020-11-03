@@ -1,0 +1,22 @@
+{
+  "name": "bonusmobilita.itaila.it",
+  "version": "0.0.1",
+  "description": "It's buggier on the inside!",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.ts",
+    "start-dev": "nodemon src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "got": "^11.8.0",
+    "lodash": "^4.17.20",
+    "nodemon": "^2.0.6"
+  }
+}

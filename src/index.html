@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stima attesa Bonus Mobilità</title>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        color: #222222;
+        background-color: #eeeeee;
+      }
+      #container {
+        margin: auto;
+        position: relative;
+        font-family: monospace;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        width: 80%;
+        height: 100%;
+        text-align: center;
+      }
+      #title {
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+        font-size: 2rem;
+        text-align: center;
+      }
+      #form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      #queue {
+        margin-bottom: 30px;
+      }
+      #form-container {
+        font-size: 2rem;
+      }
+      #footer {
+        position: absolute;
+        bottom: 0;
+      }
+      @media only screen and (max-width: 1000px) {
+        #title {
+          font-size: 4rem;
+        }
+        #queue {
+          font-size: 3rem;
+        }
+        #form-container {
+          font-size: 3rem;
+        }
+        #submit {
+          font-size: 2rem;
+        }
+        #footer {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="title">Inserisci la tua posizione:</div>
+      <div id="form-container">
+        <form id="form">
+          <input type="number" id="queue" />
+          <input type="submit" id="submit" value="Controlla" />
+        </form>
+      </div>
+      <div id="footer">
+        Attenzione: è solo una stima, non prendetela come oro colato, fatta usando il tempo stimato
+        per la mia posizione in coda e la velocità della coda attuale.
+        <br />
+        Se volete, <a href="https://github.com/lucamattiazzi/stima-bonus">qui trovate il codice</a>.
+        Fatto in fretta e furia in pausa pranzo, non pretendete troppo eh.
+        <br />
+        <br />
+        Luca
+      </div>
+    </div>
+    <script type="text/javascript">
+      const form = document.getElementById('form')
+      const input = document.getElementById('queue')
+      const title = document.getElementById('title')
+      const container = document.getElementById('form-container')
+      form.onsubmit = (e) => {
+        e.preventDefault()
+        const position = input.value
+        window
+          .fetch('/expected', {
+            method: 'POST',
+            body: JSON.stringify({ position }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          .then((res) => res.json())
+          .then((payload) => {
+            const { expectedTime } = payload
+            const date = new Date(expectedTime)
+            const div = document.createElement('div')
+            div.innerText = date.toLocaleTimeString()
+            title.innerText = 'Probabilmente il tuo turno sarà alle:'
+            container.replaceChild(div, form)
+          })
+      }
+    </script>
+  </body>
+</html>
